@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"go-backend-test/pkg/core"
+	"gobackend/pkg/core"
 
 	"github.com/gofiber/fiber/v2"
 )

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"go-backend-test/pkg/common/database"
-	"go-backend-test/pkg/core"
-	"go-backend-test/pkg/handlers"
-	"go-backend-test/pkg/repository"
+	"gobackend/pkg/common/database"
+	"gobackend/pkg/core"
+	"gobackend/pkg/handlers"
+	"gobackend/pkg/repository"
 	"log"
 
 	"github.com/gofiber/fiber/v2"

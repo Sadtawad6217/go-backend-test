@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"go-backend-test/pkg/core"
+	"gobackend/pkg/core"
 
-	"github.com/Sadtawad6217/go-backend-test/pkg/common/database"
+	"gobackend/pkg/common/database"
 )
 
 type ExamRepository struct{}
