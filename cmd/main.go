@@ -19,11 +19,11 @@ func main() {
 	srv := service.NewService(repo)
 
 	handler := handlers.NewHandler(srv)
-
-	app.Get("/posts", handler.GetPosts)
-	app.Get("/posts/:id", handler.GetPostID)
-	app.Post("/posts", handler.CreatePosts)
-	app.Put("/posts/:id", handler.UpdatePost)
-	app.Delete("/posts/:id", handler.DeletePost)
+	api := app.Group("/api/v1")
+	api.Get("/posts", handler.GetPosts)
+	api.Get("/posts/:id", handler.GetPostID)
+	api.Post("/posts", handler.CreatePosts)
+	api.Put("/posts/:id", handler.UpdatePost)
+	api.Delete("/posts/:id", handler.DeletePost)
 	app.Listen(":8080")
 }

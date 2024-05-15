@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"gobackend/pkg/core/model"
 	"gobackend/pkg/core/service"
 	"math"
@@ -16,8 +15,8 @@ type Handler struct {
 	service *service.Service
 }
 
-func NewHandler(articleService *service.Service) *Handler {
-	return &Handler{service: articleService}
+func NewHandler(service *service.Service) *Handler {
+	return &Handler{service: service}
 }
 
 func (h *Handler) GetPosts(c *fiber.Ctx) error {
@@ -83,21 +82,20 @@ func (h *Handler) GetPostID(c *fiber.Ctx) error {
 }
 
 func (h *Handler) CreatePosts(c *fiber.Ctx) error {
-	var article model.Posts
-	if err := c.BodyParser(&article); err != nil {
+	var post model.Posts
+	if err := c.BodyParser(&post); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Invalid JSON format",
 		})
 	}
 
-	if article.Title == "" {
+	if post.Title == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Title is required",
 		})
 	}
 
-	createdArticle, err := h.service.CreatePosts(article)
-	fmt.Println(err)
+	createdArticle, err := h.service.CreatePosts(post)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": err.Error(),
