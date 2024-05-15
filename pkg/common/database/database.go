@@ -1,18 +1,35 @@
 package database
 
 import (
+	"fmt"
+	"log"
+
 	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq" // Import PostgreSQL driver
+	_ "github.com/lib/pq"
+	"github.com/spf13/viper"
 )
 
-var DB *sqlx.DB
-
-func ConnectDB(dsn string) error {
-	// Open a connection to the database
-	db, err := sqlx.Connect("postgres", dsn)
-	if err != nil {
-		return err
+func Connect() *sqlx.DB {
+	viper.SetConfigFile("config.yaml")
+	if err := viper.ReadInConfig(); err != nil {
+		log.Fatalf("Error reading config file: %s", err)
 	}
-	DB = db
-	return nil
+
+	dbURL := viper.GetString("database.url")
+	if dbURL == "" {
+		log.Fatalf("Database URL is not set in config.yaml")
+	}
+
+	db, err := sqlx.Connect("postgres", dbURL)
+	if err != nil {
+		log.Fatalf("Error connecting to database: %s", err)
+	}
+
+	err = db.Ping()
+	if err != nil {
+		log.Fatalf("Error pinging database: %s", err)
+	}
+
+	fmt.Println("Successfully connected to database!")
+	return db
 }
